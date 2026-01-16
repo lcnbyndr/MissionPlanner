@@ -617,6 +617,29 @@ namespace MissionPlanner.Joystick
                             }
                         }, null);
                         break;
+                    case buttonfunction.Do_Aux_Function:
+                        _context.Send(delegate
+                        {
+                            try
+                            {
+                                int aux_function = (int)but.p1;  // AUX function number (örn: 317   )
+                                int switch_pos = (int)but.p2;     // Switch position (0=Low, 1=Middle, 2=High)
+
+                                Interface.doCommand(
+                                    (byte)Interface.sysidcurrent,
+                                    (byte)Interface.compidcurrent,
+                                    MAVLink.MAV_CMD.DO_AUX_FUNCTION,  // 218
+                                    aux_function,   // param1
+                                    switch_pos,     // param2
+                                    0, 0, 0, 0, 0
+                                );
+                            }
+                            catch
+                            {
+                                CustomMessageBox.Show("Failed to DO_AUX_FUNCTION");
+                            }
+                        }, null);
+                        break;
                 }
             }
         }
